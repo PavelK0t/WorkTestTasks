@@ -8,20 +8,15 @@ public static class TestServer
 	/// </summary>
 	public static void GetCount() 
 	{
+		rwls.EnterReadLock();
 		try
 		{
-			rwls.EnterReadLock();
-			try
-			{
-				Console.WriteLine(count);
-			}
-			finally
-			{
-				rwls.ExitReadLock();
-			}
+			Console.WriteLine(count);
 		}
-		catch (ApplicationException)
-		{}
+		finally
+		{
+			rwls.ExitReadLock();
+		}
 	}
 
 	/// <summary>
@@ -30,20 +25,15 @@ public static class TestServer
 	/// <param name="value"></param>
 	public static void AddToCount(int value) 
 	{
+		rwls.EnterWriteLock();
 		try
-		{
-			rwls.EnterWriteLock();
-			try
-			{        
-				count += value;                    
-			}
-			finally
-			{
-				rwls.ExitWriteLock();
-			}
+		{        
+			count += value;                    
 		}
-		catch (ApplicationException)
-		{}
+		finally
+		{
+			rwls.ExitWriteLock();
+		}
 	}
 }
 
