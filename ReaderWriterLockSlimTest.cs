@@ -47,6 +47,9 @@ public static class TestServer
 	}
 }
 
+/// <summary>
+/// Класс с запускоим события с timeout
+/// </summary>
 public class AsyncCaller
 {
 	private EventHandler _handler;
@@ -56,9 +59,12 @@ public class AsyncCaller
 		_handler = handler;
 	}
 
+	/// <summary>
+	/// Реализованный метод Invoke с timeout
+	/// </summary>
 	public bool Invoke(int milliseconds, object sender, EventArgs args)
 	{
-		var task = Task.Factory.StartNew(() => _handler.Invoke(sender, args));
+		var task = Task.Factory.StartNew(() => _handler?.Invoke(sender, args));
 
 		return task.Wait(milliseconds);
 	}
